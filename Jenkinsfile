@@ -13,10 +13,10 @@ pipeline {
  				sh 'java -jar rectangle.jar 10 20'
  				}
  			}
+ 		}
  		post{
  			sucess{
  				archiveArtifacts artifacts: 'rectangle.jar', fingerprint: true
  			}
  		}
  	}
-}
