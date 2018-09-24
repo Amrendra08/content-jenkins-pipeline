@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    stages  {
+    stages {
         stage ('build') {
             steps {
                 sh 'javac -d . src/*.java'
@@ -16,7 +16,7 @@ pipeline {
     }
     post {
         success {
-            achieveArtifacts artifacts: 'rectangle.jar', fingerprint:true
+            arhieveArtifacts artifacts: 'rectangle.jar', fingerprint:true
         }
     }
 }
