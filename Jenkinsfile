@@ -14,4 +14,9 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            achieveArtifacts artifacts: 'rectangle.jar', fingerprint:true
+        }
+    }
 }
