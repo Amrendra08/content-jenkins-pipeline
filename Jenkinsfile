@@ -1,22 +1,33 @@
 pipeline {
-    agent any
-    stages {
-        stage ('build') {
-            steps {
-                sh 'javac -d . src/*.java'
-                sh 'echo Main-Class: Rectangulator > MANIFEST.MF'
-                sh 'jar -cvmf MANIFEST.MF rectangle.jar *.class'
-            }
+  agent any
+  stages {
+    stage('build') {
+      parallel {
+        stage('build') {
+          steps {
+            sh 'javac -d . src/*.java'
+            sh 'echo Main-Class: Rectangulator > MANIFEST.MF'
+            sh 'jar -cvmf MANIFEST.MF rectangle.jar *.class'
+          }
         }
-        stage ('run') {
-            steps {
-                sh 'java -jar rectangle.jar 7 9'
-            }
+        stage('echoOne') {
+          steps {
+            sh 'echo "Build is ready and this is \'echoOne\' stage"'
+          }
         }
+      }
     }
-    post {
-        success {
-            archiveArtifacts artifacts: 'rectangle.jar', fingerprint:true
-        }
+    stage('run') {
+      steps {
+        sh 'java -jar rectangle.jar 7 9'
+      }
     }
+  }
+  post {
+    success {
+      archiveArtifacts(artifacts: 'rectangle.jar', fingerprint: true)
+
+    }
+
+  }
 }
